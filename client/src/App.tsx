@@ -1,14 +1,10 @@
-
-import './App.css'
+import "./App.css";
 
 function App() {
- 
-
-  return (
-    <>
-     let's get start
-    </>
-  )
+  return <>
+  <div className="bg-red-300">
+    ehloo
+    </div></>;
 }
 
-export default App
+export default App;
