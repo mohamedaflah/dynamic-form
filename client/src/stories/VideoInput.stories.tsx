@@ -13,7 +13,6 @@ export default {
   argTypes: {
     id: { control: "text" },
     isRequired: { control: "boolean" },
-    invert: { control: "boolean" },
   },
 };
 
