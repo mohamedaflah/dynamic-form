@@ -7,7 +7,7 @@ import "./TextInput.css";
 import "./commonstyle/common.css";
 export function TextInputs({ label, isRequired, placeholder }: TextInputProp) {
   return (
-    <div className="inputBox bg-red-300">
+    <div className="inputBox ">
       <label htmlFor="">{label}</label>
       <input type="text" placeholder={placeholder} required={isRequired} />
     </div>
