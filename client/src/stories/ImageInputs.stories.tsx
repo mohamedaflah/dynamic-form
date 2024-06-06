@@ -1,7 +1,7 @@
 import { ImageInputs, ImageInputProp } from "../Components/ImageInput";
 
 export default {
-  title: "ImageInput",
+  title: "ImageInputs",
   component: ImageInputs,
   args: {
     id: "imagefile",

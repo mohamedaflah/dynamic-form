@@ -16,6 +16,7 @@ export function ImageInputs({ invert, isRequired, id }: ImageInputProp) {
         type="file"
         required={isRequired}
         id={id}
+        accept="image/*"
         hidden
         onChange={(e) => {
           setImage(e?.target?.files?.[0]);
