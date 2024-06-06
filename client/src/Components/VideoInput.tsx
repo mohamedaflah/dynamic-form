@@ -12,11 +12,11 @@ export const VideoInputs = ({ id, isRequired, sublabel }: VideoInputProp) => {
   const labelRef = useRef<HTMLLabelElement>(null);
   return (
     <div
-      className="w-full  bg-gray-300 border rounded-md flex items-center justify-center relative "
+      className="w-full  bg-slate-100 border rounded-md flex items-center justify-center relative "
       style={{
         height: 300,
         justifyContent: "center",
-        background: "whitesmoke",
+        background: "rgb(241 245 249/1)",
         position: "relative",
       }}
     >
