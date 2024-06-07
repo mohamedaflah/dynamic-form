@@ -1,49 +1,66 @@
-import React from "react";
 import { useQuery } from "react-query";
-import { TextInput,  DropdownSingle, CheckboxList, RadioList,  DatePicker,  } from "oolib";
+import {
+  TextInput,
+  DropdownSingle,
+  CheckboxList,
+  RadioList,
+  DatePicker,
+  LoaderCircle,
+} from "oolib";
 import "./App.css";
-const fetchFormConfig = async () => {
-    const response = await fetch("http://localhost:5000/api/form");
-    if (!response.ok) {
-        throw new Error("Network response was not ok");
-    }
-    return response.json();
-};
 
-const componentMapping = {
-    TextInput,
-    // ImageInput,
-    DropdownSingle,
-    CheckboxList,
-    RadioList,
-    // VideoInput,
-    DatePicker,
-    // PDFInput,
+import { fetchSampleData } from "./utils/fetch-sampledata";
+import { useEffect } from "react";
+
+const components = {
+  TextInput,
+  DropdownSingle,
+  CheckboxList,
+  RadioList,
+  DatePicker,
 };
 
 const App = () => {
-    const { data, error, isLoading } = useQuery("formConfig", fetchFormConfig);
+  const {
+    data: formConfig,
+    isLoading: loading,
+    error,
+  } = useQuery("formConfig", fetchSampleData);
 
-    if (isLoading) return <div>Loading....</div>;
-    if (error) return <div>Error: {error.message}</div>;
-    console.log("data", data);
-    return (
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  return (
+    <div style={{ width: "50%", margin: "auto" }}>
+      <h1>oolib Form</h1>
+      {loading ? (
         <div>
-            <h1>Dynamic Form</h1>
-            <form>
-                {data.map((component, index) => {
-                    const Component = componentMapping[component.comp];
-                    if (!Component) return null;
-
-                    return (
-                        <div key={index}>
-                            <Component {...component.props} isRequired={component.isRequired} />
-                        </div>
-                    );
-                })}
-            </form>
+          <LoaderCircle />
         </div>
-    );
+      ) : (
+        <>
+          <form onSubmit={(e) => e.preventDefault()}>
+            {formConfig?.map((component, index) => {
+              const FormComponent = components[component.comp];
+              if (!FormComponent) return null;
+
+              return (
+                <div key={index}>
+                  <FormComponent
+                    {...component.props}
+                    isRequired={component.isRequired}
+                  />
+                </div>
+              );
+            })}
+          </form>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default App;
