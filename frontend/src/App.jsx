@@ -1,15 +1,49 @@
-import { useState } from "react";
+import React from "react";
+import { useQuery } from "react-query";
+import { TextInput,  DropdownSingle, CheckboxList, RadioList,  DatePicker,  } from "oolib";
 import "./App.css";
-import { TextInput } from "oolib";
-function App() {
-  const [text, setText] = useState("");
-  return (
-    <main style={{ width: "100%", height: "100%" }}>
-      <div className="w-96 mx-auto" style={{ width: "50%", margin: "auto" }}>
-        <TextInput onChange={(e) => setText(e.target.value)} value={text} />
-      </div>
-    </main>
-  );
-}
+const fetchFormConfig = async () => {
+    const response = await fetch("http://localhost:5000/api/form");
+    if (!response.ok) {
+        throw new Error("Network response was not ok");
+    }
+    return response.json();
+};
+
+const componentMapping = {
+    TextInput,
+    // ImageInput,
+    DropdownSingle,
+    CheckboxList,
+    RadioList,
+    // VideoInput,
+    DatePicker,
+    // PDFInput,
+};
+
+const App = () => {
+    const { data, error, isLoading } = useQuery("formConfig", fetchFormConfig);
+
+    if (isLoading) return <div>Loading....</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    console.log("data", data);
+    return (
+        <div>
+            <h1>Dynamic Form</h1>
+            <form>
+                {data.map((component, index) => {
+                    const Component = componentMapping[component.comp];
+                    if (!Component) return null;
+
+                    return (
+                        <div key={index}>
+                            <Component {...component.props} isRequired={component.isRequired} />
+                        </div>
+                    );
+                })}
+            </form>
+        </div>
+    );
+};
 
 export default App;
